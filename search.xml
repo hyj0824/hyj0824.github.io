@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>多重背包——二进制优化</title>
+    <url>/2023/01/27/%E5%A4%9A%E9%87%8D%E8%83%8C%E5%8C%85%E2%80%94%E2%80%94%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><p>如果某一物品的数量 p[i]&#x3D;&#x3D;1000<br>朴素的算法需要遍历1000多次</p>
+<p>等价转换：我们知道二进制可以表示出所有正整数<br>将数量拆解，从1开始，尽可能多的二进制数<br>这样就能用这些新数字重新表示1~1000的所有数字<br>而不必一个一个遍历</p>
+<p>但<em><strong>不等同于快速幂</strong></em>的迭代求解<br>快速幂的目的是分解掉原数字<br>拆成尽可能少的二进制数字来简便运算<br>而这里是要用尽可能少的数字来重新表示1~1000的所有数字</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><h3 id="实现1："><a href="#实现1：" class="headerlink" title="实现1："></a>实现1：</h3><p>倍增k 将1000个依次递减 比如：<br>1000 &#x3D; 1、2、4、8、16、32、64、128、256、489</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> k=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span>(k&lt;p[i])&#123;</span><br><span class="line">	<span class="comment">// DP k(1 2 4 8 16 32...);</span></span><br><span class="line">	<span class="comment">// 该“物品”的花费：k*cost[i] 收益：k*value[i]</span></span><br><span class="line">	p[i]-=k;</span><br><span class="line">	k&lt;&lt;=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">k=p[i];</span><br><span class="line"><span class="comment">// 再copy一次上面的dp方程即可</span></span><br><span class="line"><span class="comment">// DP k(489);</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="实现2：（直接在dp时进行）"><a href="#实现2：（直接在dp时进行）" class="headerlink" title="实现2：（直接在dp时进行）"></a>实现2：（直接在dp时进行）</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> num[maxn][<span class="number">2</span>], dp[maxn];</span><br><span class="line"><span class="type">int</span> N, V, c, w, n, t;</span><br><span class="line">cin &gt;&gt; V &gt;&gt; N;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt;= N; ++i)</span><br><span class="line">&#123;</span><br><span class="line">	cin &gt;&gt; c &gt;&gt; w &gt;&gt; n;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> k = <span class="number">1</span>; k &lt; n; k&lt;&lt;=<span class="number">1</span>) </span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j = V; j &gt;= k*c; --j)</span><br><span class="line">			dp[j] = <span class="built_in">max</span>(dp[j], dp[j-k*c]+k*w);</span><br><span class="line">		n -= k;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> j = V; j &gt;= n*c; --j)</span><br><span class="line">		dp[j] = <span class="built_in">max</span>(dp[j], dp[j-n*c]+n*w);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>背包</tag>
+        <tag>二进制优化</tag>
+        <tag>OI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello！！！</title>
+    <url>/2023/01/25/Hello/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>离散化算法</title>
+    <url>/2023/01/25/%E7%A6%BB%E6%95%A3%E5%8C%96%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://zhuanlan.zhihu.com/p/556248909">算法：离散化算法及其实现 - 知乎 (zhihu.com)</a></p>
+<h2 id="离散化的概念"><a href="#离散化的概念" class="headerlink" title="离散化的概念"></a>离散化的概念</h2><p>首先，什么是离散化？</p>
+<p>离散化就是<strong>比相对大小</strong>。</p>
+<p>通俗的说，离散化是在不改变数据相对大小的条件下，对数据进行相应的缩小。</p>
+<p>原数：131021 546412 973324</p>
+<p>离散化后数据：1 2 3</p>
+<h2 id="离散化的用途"><a href="#离散化的用途" class="headerlink" title="离散化的用途"></a>离散化的用途</h2><p>当有些数据本身很大， 自身无法作为数组的下标保存对应的属性。如果这时只是需要这堆数据的相对属性， 那么可以对其进行离散化处理。当数据只与它们之间的相对大小有关，而与具体是多少无关时，可以进行离散化。</p>
+<h2 id="离散化的写法"><a href="#离散化的写法" class="headerlink" title="离散化的写法"></a>离散化的写法</h2><p>我们只需要维护两个事情不变：</p>
+<p>首先：保证离散化之后的数据尽可能地小而且非负。</p>
+<p>其次：离散后的数据要保持原本的大小关系，原本相等的也要保持相等，否则就是错误的离散。（一对一进行离散）</p>
+<p>找出原数据在序列中的序位就是离散化的关键。</p>
+<h3 id="结构体实现："><a href="#结构体实现：" class="headerlink" title="结构体实现："></a>结构体实现：</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">node</span> &#123;</span><br><span class="line">    <span class="type">int</span> x,id;</span><br><span class="line">&#125;a[maxn];</span><br><span class="line"><span class="type">int</span> rank[maxn],n;</span><br><span class="line">-----------------------------</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++) &#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i].x);</span><br><span class="line">    a[i].id=i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">sort</span>(a+<span class="number">1</span>,a+n+<span class="number">1</span>);<span class="comment">//从小到大</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    rank[num[i].id]=i;<span class="comment">//映射</span></span><br></pre></td></tr></table></figure>
+
+<p>解释：</p>
+<p>这实际上就是一个结构体模拟映射的过程。</p>
+<p>一开始输入了原数据，并且按次序保存了id，也就是数据在原数列中的位置。</p>
+<p>然后进行排序，易知映射后的数据范围就是1~n。所以排序后的位置就放上我们当前的i即可。</p>
+<p>这个方式有一个弊端，就是不能处理数据相等的情况。如果碰到数据相等，那么离散化之后就变成了不等。</p>
+<h3 id="数组实现"><a href="#数组实现" class="headerlink" title="数组实现"></a>数组实现</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> a[maxn],b[maxn];</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line">    b[i]=a[i];</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">sort</span>(b+<span class="number">1</span>,b+n+<span class="number">1</span>,cmp);<span class="comment">//cmp函数是自定义比较从小到大或从大到小的</span></span><br><span class="line"><span class="type">int</span> size=<span class="built_in">unique</span>(b+<span class="number">1</span>,b+n+<span class="number">1</span>)-(b+<span class="number">1</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    a[i]=<span class="built_in">lower_bound</span>(b+<span class="number">1</span>,b+size+<span class="number">1</span>,a[i])-b;</span><br><span class="line">    <span class="comment">//算出在a[i]在b中的下标 并覆盖</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解释：</p>
+<p>unique去重，返回无重复序列的尾迭代器<br>lower_bound返回第一个大于等于val的迭代器（upper是大于）</p>
+<p>输入a[i]之后紧接着保存同样的b[i]作为副本。然后对副本b进行去重，并保存b数组去重后的长度（size）。</p>
+<p>然后开始离散化，直接把对应元素转换成相应的数组下标即可。</p>
+<h3 id="STL-map实现"><a href="#STL-map实现" class="headerlink" title="STL map实现"></a>STL map实现</h3><p>模板：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;map&gt;</span></span></span><br><span class="line">map&lt;<span class="type">int</span>,<span class="type">int</span>&gt; mapp;</span><br><span class="line"><span class="type">int</span> a[maxn];</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line"><span class="built_in">sort</span>(a+<span class="number">1</span>,a+n+<span class="number">1</span>,cmp);</span><br><span class="line"><span class="type">int</span> cnt=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(a[i]!=a[i<span class="number">-1</span>])</span><br><span class="line">        map[a[i]]=++cnt;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">        map[a[i]]=cnt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>思想是一样的，应用了一个cnt变量来维护去重，调用的时候可以直接用键值，非常舒服方便。</p>
+]]></content>
+      <tags>
+        <tag>OI</tag>
+        <tag>离散化</tag>
+      </tags>
+  </entry>
+</search>
